@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
-// import css from './Notification.module.css';
+import css from './Notification.module.css';
 
 const Notification = ({message}) => {
   return (
-    <div>
-      <p>{message}</p>
+    <div className={css.messageWrapper}>
+      <p className={css.message}>{message}</p>
   </div>
 )
 }
