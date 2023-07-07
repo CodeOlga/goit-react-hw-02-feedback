@@ -15,34 +15,41 @@ class App extends Component {
   //у стрілки контекст з'являється в момент створення
   //у стрілки немає свого контекста, тому вона забирає його від батька
   
-  onBtnClicked = (type) => 
-    this.setState(prevState => ({ [type]: prevState[type] + 1 }))
+  onBtnClicked = option => 
+    this.setState(prevState => ({ [option]: prevState[option] + 1 }))
 
   countTotalFeedback = () => {
     const { good, neutral, bad } = this.state;
     return good + neutral + bad;
   }
 
+
   countPositiveFeedbackPercentage = () => {
     const { good } = this.state;
-    const totalFeedback = this.countTotalFeedback();
-    return totalFeedback === 0 ? 0 : Math.round((good / totalFeedback) * 100);
+    const total = this.countTotalFeedback();
+    return total === 0 ? 0 : Math.round((good / total) * 100);
   };
+  // countPositiveFeedbackPercentage = () => {
+  //   const { good } = this.state;
+  //   const totalFeedback = this.countTotalFeedback();
+  //   return totalFeedback === 0 ? 0 : Math.round((good / totalFeedback) * 100);
+  // };
 
 
   render() {
     const { good, neutral, bad } = this.state;
-    const totalFeedback = this.countTotalFeedback();
+    const total = this.countTotalFeedback();
     const positivePercentage = this.countPositiveFeedbackPercentage();
+    const options = Object.keys(this.state);
 
     return (
   <>
   <Section title="Please Leave feedback">
-    <FeedbackOptions options={} onLeaveFeedback={this.onBtnClicked} />
+    <FeedbackOptions options={ options} onLeaveFeedback={this.onBtnClicked} />
   </Section>
         
   <Section title="Statistics">
-  <Statistic good={good} neutral={neutral} bad={bad} total={totalFeedback} positivePercentage={positivePercentage} />
+  <Statistic good={good} neutral={neutral} bad={bad} total={total} positivePercentage={positivePercentage} />
   </Section>
   </>
     )
