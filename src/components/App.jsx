@@ -2,6 +2,7 @@ import { Component } from 'react';
 import Section from './Section/Section';
 import FeedbackOptions from './FeedbackOptions/FeedbackOptions';
 import Statistic from './Statistics/Statistics';
+import Notification from './Notification/Notification';
 
 
 class App extends Component {
@@ -23,18 +24,11 @@ class App extends Component {
     return good + neutral + bad;
   }
 
-
   countPositiveFeedbackPercentage = () => {
     const { good } = this.state;
     const total = this.countTotalFeedback();
     return total === 0 ? 0 : Math.round((good / total) * 100);
   };
-  // countPositiveFeedbackPercentage = () => {
-  //   const { good } = this.state;
-  //   const totalFeedback = this.countTotalFeedback();
-  //   return totalFeedback === 0 ? 0 : Math.round((good / totalFeedback) * 100);
-  // };
-
 
   render() {
     const { good, neutral, bad } = this.state;
@@ -43,38 +37,21 @@ class App extends Component {
     const options = Object.keys(this.state);
 
     return (
-  <>
-  <Section title="Please Leave feedback">
-    <FeedbackOptions options={ options} onLeaveFeedback={this.onBtnClicked} />
-  </Section>
-        
-  <Section title="Statistics">
-  <Statistic good={good} neutral={neutral} bad={bad} total={total} positivePercentage={positivePercentage} />
-  </Section>
-  </>
+      <>
+        <Section title="Please Leave feedback">
+          <FeedbackOptions options={options} onLeaveFeedback={this.onBtnClicked} />
+        </Section>
+
+        <Section title="Statistics">
+          {total !== 0 ? (
+            <Statistic good={good} neutral={neutral} bad={bad} total={total} positivePercentage={positivePercentage} />
+          ) : (
+            <Notification message="There is no feedback" />
+          )
+          }
+        </Section>
+      </>
     )
-
-    // return (
-    //   <div>
-    //     <h2>Please Leave feedback</h2>
-    //     <button type="button" onClick={() => this.onBtnClicked('good')}>Good</button>
-    //     <button type="button" onClick={() => this.onBtnClicked('neutral')}>Neutral</button>
-    //     <button type="button" onClick={() => this.onBtnClicked('bad')}>Bad</button>
-    //     <h3>Statistics</h3>
-    //     <p>Good: {good} </p>
-    //     <p>Neutral: {neutral} </p>
-    //     <p>Bad: {bad} </p>
-    //     <p>Total: {totalFeedback} </p>
-    //     <p>Positive feedback: {positivePercentage} %</p>
-        
-    //     </div>
-    // )
-
-
-
-
-
-    
   }
 }
 
